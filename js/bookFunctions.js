@@ -39,8 +39,6 @@ const redirectBookId = async () => {
             
             //Redirecciono a book enviando el IdLibro
             window.location.href = `book.html?idLibro=${idLibro}`
-
-            //templateBook(book)
         })
     })
 }
@@ -58,19 +56,22 @@ const getBookById = async (idLibro) => {
     const responseAuthor = await fetch('http://localhost:3000/authors/' + book.IdAutor)
     const author = await responseAuthor.json()
 
-    //Pendiente --> Obtener Idioma (Falta la API)
-
-    const infoCabecera = document.getElementById('info-cabecera')
-    const infoDetalle = document.getElementById('info-detalle')
-    const imgPortada = document.getElementById('img-portada')
-
-    imgPortada.src = book.ImagenTapa
+    //Obtengo el Idioma
+    const responseLanguage = await fetch('http://localhost:3000/languages/' + book.IdIdioma)
+    const language = await responseLanguage.json()
 
     //Formateo la fecha
     const [dateComponents, timeComponents] = book.FechaPublicacion.split('T');
     const [year, month, date] = dateComponents.split('-')
     const fechaPublicacion = `${date}/${month}/${year}`
-    
+
+    //Constantes a utilizar para setear propiedades en el HTML
+    const infoCabecera = document.getElementById('info-cabecera')
+    const infoDetalle = document.getElementById('info-detalle')
+    const imgPortada = document.getElementById('img-portada')
+
+    //Seteo las propiedades en el HTML
+    imgPortada.src = book.ImagenTapa
     
     const templateCabecera = `
         <li class="list-group-item"><h4 class="fs-4 text-danger">${categorie.Descripcion}</h4></li>
@@ -80,7 +81,7 @@ const getBookById = async (idLibro) => {
     const templateDetalle = `
         <li class="list-group-item"><span class="fw-bold text-muted">ISBN:</span> ${book.ISBN}</li>
         <li class="list-group-item"><span class="fw-bold text-muted">Autor:</span> ${author.Nombre} ${author.Apellido}</li>
-        <li class="list-group-item"><span class="fw-bold text-muted">Idioma:</span> ${book.IdIdioma}</li>
+        <li class="list-group-item"><span class="fw-bold text-muted">Idioma:</span> ${language.Idioma}</li>
         <li class="list-group-item"><span class="fw-bold text-muted">Fecha de publicación:</span> ${fechaPublicacion}</li>
         <li class="list-group-item"><span class="fw-bold text-muted">Número de Páginas:</span> ${book.NumeroPaginas}</li>
         <li class="list-group-item"><span class="fw-bold text-muted">Precio:</span> ${book.Precio}</li>
