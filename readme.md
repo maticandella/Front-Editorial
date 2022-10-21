@@ -1,6 +1,6 @@
 # Front Editoriales
 
-Frontend que consume la API de la Editorial de Libros (API-Editorial).
+Frontend que consume la API de [API-Editorial](https://github.com/maticandella/API-Editorial).
 
 ## Proposito 🚀
 
