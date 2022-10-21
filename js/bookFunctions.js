@@ -3,7 +3,11 @@ const getCategories = async () => {
     //navegación
     const dropdownCategorias = document.getElementById('categorias')
     
-    const response = await fetch('http://localhost:3000/categories')
+    const response = await fetch('http://localhost:3000/categories', {
+            headers: {
+                "Authorization": localStorage.getItem("jwt")
+            }
+    })
     const categories = await response.json()
     const template = categorie => `
         <li>
@@ -17,7 +21,11 @@ const getBooks = async () => {
     //Se utiliza para obtener los libros y listarlos
     const contenedorImagenes = document.querySelector('.contenedor-imagenes')
     
-    const response = await fetch('http://localhost:3000/books')
+    const response = await fetch('http://localhost:3000/books', {
+            headers: {
+                "Authorization": localStorage.getItem("jwt")
+            }
+    })
     const books = await response.json()
     const template = book => `
         <img class="img-thumbnail col-md-2 col-sm-3" src="${book.ImagenTapa}" alt="Portada Libro"
@@ -44,20 +52,36 @@ const redirectBookId = async () => {
 }
 
 const getBookById = async (idLibro) => {
-    //Envio el Id a la API para que me devuelva el Objeto Libro completo 
-    const responseBook = await fetch('http://localhost:3000/books/' + idLibro)
+    //Envio el Id a la API para que me devuelva el Objeto Libro completo
+    const responseBook = await fetch('http://localhost:3000/books/' + idLibro, {
+            headers: {
+                "Authorization": localStorage.getItem("jwt")
+            }
+    })
     const book = await responseBook.json()
     
     //Obtengo la Categoría
-    const responseCategorie = await fetch('http://localhost:3000/categories/' + book.IdCategoria)
+    const responseCategorie = await fetch('http://localhost:3000/categories/' + book.IdCategoria, {
+            headers: {
+                "Authorization": localStorage.getItem("jwt")
+            }
+    })
     const categorie = await responseCategorie.json()
 
     //Obtengo el Autor
-    const responseAuthor = await fetch('http://localhost:3000/authors/' + book.IdAutor)
+    const responseAuthor = await fetch('http://localhost:3000/authors/' + book.IdAutor, {
+            headers: {
+                "Authorization": localStorage.getItem("jwt")
+            }
+    })
     const author = await responseAuthor.json()
 
     //Obtengo el Idioma
-    const responseLanguage = await fetch('http://localhost:3000/languages/' + book.IdIdioma)
+    const responseLanguage = await fetch('http://localhost:3000/languages/' + book.IdIdioma, {
+            headers: {
+                "Authorization": localStorage.getItem("jwt")
+            }
+    })
     const language = await responseLanguage.json()
 
     //Formateo la fecha
