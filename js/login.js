@@ -27,36 +27,3 @@ loginForm.addEventListener('submit', async (e) => {
         window.location.href = "./index.html"
     }
 })
-
-// const formLogin = document.getElementById("form-login");
-
-// formLogin.addEventListener('submit', async (e) => {
-//     e.preventDefault();
-//     const email = document.getElementById('email');
-//     const pass = document.getElementById('password');
-
-//     await fetch('http://localhost:3000/users/login', {
-//                 headers: {'Content-Type': 'application/json'},
-//                 method: 'POST',
-//                 body: JSON.stringify({"email":email.value, "password":pass.value})
-//             }).then(response => {
-//                 console.log(".then RESPONSE")
-//                 if (response.ok) {
-//                     return response;
-//                 }
-//                 return Promise.reject(response);
-//             }).then(data => {
-//                 console.log(data)
-//                 console.log(".then DATA")
-//                 //SESIÓN
-//                 sessionStorage.setItem("initialized_session", "true");
-
-//                 setTimeout(() => {
-//                     window.location.href = "./index.html";
-//                 }, 2000);
-//             }).catch(function (error) {
-//                 console.log(".then CATCH")
-//                 console.warn(error)
-//             });
-
-// })

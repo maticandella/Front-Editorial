@@ -4,6 +4,7 @@
         <title>Ediciones Pamies</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="css/styles.css"/>
         <!-- Bootstrap -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"/>
@@ -63,16 +64,25 @@
         </header>
 
         <div class="container">
-            <main class="main pb-3">
-                <h1>Libros</h1> 
-                <a class="btn btn-primary">Crear nuevo</a> 
-                <div class="contenedor-imagenes mb-3" id="contenedor-imgs">
-                    <!--Acá se listan los Libros desde main.js-->
+            <div class="form-row row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <h1>Libros</h1>
+                    </div>
                 </div>
-            </main>
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <input class="form-control" id="input-search" type="text" placeholder="Buscar libro...">
+                    </div>
+                </div>
+            </div>
+            <a class="btn btn-primary" href="addBook.html">Agregar</a>
+            <div class="contenedor-imagenes mb-3" id="contenedor-imgs">
+                <!--Acá se listan los Libros desde main.js-->
+            </div>
         </div>
 
-        <footer class="bg-dark text-center text-white">
+        <footer class="bg-dark text-center text-white footer mt-auto py-3">
             <!-- Grid container -->
             <div class="container p-4 pb-0">
               <!-- Section: Social media -->
@@ -103,6 +113,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     <!-- JS -->
     <script src="js/session.js"></script>
+    <script src="js/apis.js"></script>
     <script src="js/bookFunctions.js"></script>
     <script src="js/main.js"></script>
 </html>

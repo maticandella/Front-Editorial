@@ -3,12 +3,7 @@ const getCategories = async () => {
     //navegación
     const dropdownCategorias = document.getElementById('categorias')
     
-    const response = await fetch('http://localhost:3000/categories', {
-            headers: {
-                "Authorization": localStorage.getItem("jwt")
-            }
-    })
-    const categories = await response.json()
+    const categories = await getAll("categories")
     const template = categorie => `
         <li>
             <a class="dropdown-item" href="#">${categorie.Descripcion}</a>
@@ -21,19 +16,35 @@ const getBooks = async () => {
     //Se utiliza para obtener los libros y listarlos
     const contenedorImagenes = document.querySelector('.contenedor-imagenes')
     
-    const response = await fetch('http://localhost:3000/books', {
-            headers: {
-                "Authorization": localStorage.getItem("jwt")
-            }
-    })
-    const books = await response.json()
+    const books = await getAll("books")
     const template = book => `
         <img class="img-thumbnail col-md-2 col-sm-3" src="${book.ImagenTapa}" alt="Portada Libro"
         id="${book.IdLibro}">
     `
     contenedorImagenes.innerHTML = books.map(book => template(book)).join('')
+
+    //Search input
+    const inputSearch = document.getElementById("input-search")
     
-    await redirectBookId()
+    //Con el evento keyup voy obteniendo lo que el usuario va tecleando en el input
+    inputSearch.addEventListener('keyup',() => {
+        const bookSearch = []
+        books.forEach(book => {
+            const valor = inputSearch.value
+            const include = book.Titulo.toLowerCase().includes(valor.toLowerCase())
+            if (include) {
+                bookSearch.push(book)
+            }
+        })
+        
+        contenedorImagenes.innerHTML = ""
+        const template = bookTemplate => `
+        <img class="img-thumbnail col-md-2 col-sm-3" src="${bookTemplate.ImagenTapa}" alt="Portada Libro"
+        id="${bookTemplate.IdLibro}">
+        `
+        contenedorImagenes.innerHTML = bookSearch.map(bookTemplate => template(bookTemplate)).join('')
+        redirectBookId()
+    })
 }
 
 const redirectBookId = async () => {
@@ -53,36 +64,16 @@ const redirectBookId = async () => {
 
 const getBookById = async (idLibro) => {
     //Envio el Id a la API para que me devuelva el Objeto Libro completo
-    const responseBook = await fetch('http://localhost:3000/books/' + idLibro, {
-            headers: {
-                "Authorization": localStorage.getItem("jwt")
-            }
-    })
-    const book = await responseBook.json()
+    const book = await getById("books", idLibro)
     
     //Obtengo la Categoría
-    const responseCategorie = await fetch('http://localhost:3000/categories/' + book.IdCategoria, {
-            headers: {
-                "Authorization": localStorage.getItem("jwt")
-            }
-    })
-    const categorie = await responseCategorie.json()
+    const categorie = await getById("categories", book.IdCategoria)
 
     //Obtengo el Autor
-    const responseAuthor = await fetch('http://localhost:3000/authors/' + book.IdAutor, {
-            headers: {
-                "Authorization": localStorage.getItem("jwt")
-            }
-    })
-    const author = await responseAuthor.json()
+    const author = await getById("authors", book.IdAutor)
 
     //Obtengo el Idioma
-    const responseLanguage = await fetch('http://localhost:3000/languages/' + book.IdIdioma, {
-            headers: {
-                "Authorization": localStorage.getItem("jwt")
-            }
-    })
-    const language = await responseLanguage.json()
+    const language = await getById("languages", book.IdIdioma)
 
     //Formateo la fecha
     const [dateComponents, timeComponents] = book.FechaPublicacion.split('T');

@@ -4,7 +4,7 @@ Frontend que consume la API de [API-Editorial](https://github.com/maticandella/A
 
 ## Proposito 🚀
 
-En este proyecto iré volcando todos los conocimientos adquiridos en torno a HTML, JavaScript, Bootstrap, entre otros.
+En este proyecto iré incorporando todos los conocimientos adquiridos en torno al Frontend, sobre todo JavaScript Vanilla.
 
 ## Construido con 🛠️
 
