@@ -47,41 +47,70 @@ const completeSelects = async () => {
     selectIdioma.innerHTML = languages.map(language => templateIdioma(language)).join('')
 }
 
-const addBook = async () => {
+const getId = (valor) => {
+    const select = document.getElementById(valor)
+    return select.options[select.selectedIndex].value
+}
+
+const addBook = () => {
     const formAdd = document.getElementById("form-addBook")
 
-    formAdd.addEventListener('submit', (e) => {
+    formAdd.addEventListener('submit', async (e) => {
         e.preventDefault()
-        //Continuar acaaaaaaaa / quitar lo harcodeado y reemplazarlo por los datos correctos
-        const categoria = 1// document.getElementById("categoria").value
-        const autor = 3//document.getElementById("autor").value
+        //Obtengo el id de Categoria
+        const idCategoria = await getId("categoria")
+        //Obtengo el id de Autor
+        const idAutor = await getId("autor")
+        //Obtengo el id de Idioma
+        const idIdioma = await getId("idioma")
+        //Obtengo el id de Usuario
+        const usuario = await getUserByEmail("users", sessionStorage.getItem("email"))
+        const idUsuario = usuario.IdUsuario
+
+        //Inputs
         const titulo = document.getElementById("titulo").value
         const isbn = document.getElementById("isbn").value
         const fechaPublicacion = document.getElementById("fecha-publicacion").value
         const nroPaginas = document.getElementById("nro-paginas").value
-        const idioma = 1//document.getElementById("idioma").value
         const precio = document.getElementById("precio").value
         const reseña = document.getElementById("reseña").value
-        const portada = "https://static.cegal.es/imagenes/marcadas/9788408/978840825327.gif" //document.getElementById("portada").value
-        const usuario = 1
+
+        //Portada 
+        const portada = document.getElementById("portada").value
+        //Obtengo el name de la imagen seleccionada
+        if (portada) {
+            var startIndex = (portada.indexOf('\\') >= 0 ? portada.lastIndexOf('\\') : portada.lastIndexOf('/'));
+            var filename = portada.substring(startIndex);
+            if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+                filename = filename.substring(1);
+            }
+        }
+        //Path de la imagen seleccionada //No funciona en chrome web server
+        const imgTapa = 'C:/Users/54340/Desktop/Matías/Desarrollo/Front-Editorial/img/' //+ filename
+
+        const book = new Book(idCategoria, idAutor, titulo, isbn, fechaPublicacion, 
+             nroPaginas, idIdioma, precio, reseña, imgTapa, idUsuario);
         
-        const book = new Book(categoria, autor, titulo, isbn, fechaPublicacion, 
-            nroPaginas, idioma, precio, reseña, portada, usuario);
-        
-        const response = postObject("books", book)    
-        
-        if (response.status >= 400) {
-            // const errorNode = document.getElementById('error')
-            // errorNode.innerHTML = response.text()
-            console.log(response)
+        const response = await postObject("books", book)    
+        console.log(response.status)
+        let mensaje = ""
+
+        if (response != null && response.status >= 400) {
+            mensaje = await response.json()
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: mensaje.errors[0].msg,
+                //footer: '<a href="">Why do I have this issue?</a>'
+              })
         } else {
             //Registro exitoso
-            console.log(response);
+            mensaje = await response.text()
             //Mensaje de SweetAlert2
             Swal.fire({
                 position: 'center-center',
                 icon: 'success',
-                title: 'Libro registrado exitosamente',
+                title: mensaje,
                 showConfirmButton: false,
                 timer: 1500
               }).then(relocation => window.location.href = "./index.html")

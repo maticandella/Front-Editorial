@@ -23,7 +23,8 @@ loginForm.addEventListener('submit', async (e) => {
         errorNode.innerHTML = responseData
     } else {
         console.log(responseData);
-        localStorage.setItem("jwt", `Bearer ${responseData}`)
+        sessionStorage.setItem("jwt", `Bearer ${responseData}`)
+        sessionStorage.setItem("email", email.value)
         window.location.href = "./index.html"
     }
 })

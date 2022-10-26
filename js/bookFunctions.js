@@ -90,7 +90,15 @@ const getBookById = async (idLibro) => {
     
     const templateCabecera = `
         <li class="list-group-item"><h4 class="fs-4 text-danger">${categorie.Descripcion}</h4></li>
-        <li class="list-group-item"><h1 class="fs-1">${book.Titulo}</h1></li>
+        <li class="list-group-item">
+            <div class="row">
+            <div class="col">
+                <h1 class="fs-1">${book.Titulo}</h1>
+                <a class="btn btn-primary" href="updateBook.html">Modificar</a>
+                <a class="btn btn-danger" href="deleteBook.html">Eliminar</a>
+            </div>
+            </div>
+        </li>
         <li class="list-group-item"><p class="text-secondary">${book.Resenia}</p></li>
     `
     const templateDetalle = `
