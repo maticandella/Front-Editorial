@@ -45,6 +45,11 @@ app.get('/updatebook', function(req, res) {
     res.render('pages/updateBook');
 });
 
+//BooksCategorie
+app.get('/bookscategorie', function(req, res) {
+    res.render('pages/booksCategorie');
+});
+
 //About
 app.get('/about', function(req, res) {
     res.render('pages/about');

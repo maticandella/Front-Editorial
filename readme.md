@@ -24,8 +24,6 @@ En este proyecto iré incorporando todos los conocimientos adquiridos en torno a
 
 * Paginación en index.html
 * Validaciones en todos formularios
-* Delete de Books
 * Insert, Update y Delete de Authors
 * Insert, Update y Delete de Categories
-* Búsqueda de Book por Categorie
 * Con el token dar acceso a ciertas funcionalidades (A día de hoy está aplicado a toda la funcionalidad del sitio)

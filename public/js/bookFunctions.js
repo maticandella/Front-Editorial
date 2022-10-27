@@ -6,7 +6,7 @@ const getCategories = async () => {
     const categories = await getAll("categories")
     const template = categorie => `
         <li>
-            <a class="dropdown-item" href="#">${categorie.Descripcion}</a>
+            <a class="dropdown-item" href='booksCategorie?idCategoria=${categorie.IdCategoria}'>${categorie.Descripcion}</a>
         </li>
     `
     dropdownCategorias.innerHTML = categories.map(categorie => template(categorie)).join('')
@@ -17,6 +17,46 @@ const getBooks = async () => {
     const contenedorImagenes = document.querySelector('.contenedor-imagenes')
     
     const books = await getAll("books")
+    const template = book => `
+        <img class="img-thumbnail col-md-2 col-sm-3" src="${book.ImagenTapa}" alt="Portada Libro"
+        id="${book.IdLibro}">
+    `
+    contenedorImagenes.innerHTML = books.map(book => template(book)).join('')
+
+    //Search input
+    const inputSearch = document.getElementById("input-search")
+    
+    //Con el evento keyup voy obteniendo lo que el usuario va tecleando en el input
+    inputSearch.addEventListener('keyup',() => {
+        const bookSearch = []
+        books.forEach(book => {
+            const valor = inputSearch.value
+            const include = book.Titulo.toLowerCase().includes(valor.toLowerCase())
+            if (include) {
+                bookSearch.push(book)
+            }
+        })
+        
+        contenedorImagenes.innerHTML = ""
+        const template = bookTemplate => `
+        <img class="img-thumbnail col-md-2 col-sm-3" src="${bookTemplate.ImagenTapa}" alt="Portada Libro"
+        id="${bookTemplate.IdLibro}">
+        `
+        contenedorImagenes.innerHTML = bookSearch.map(bookTemplate => template(bookTemplate)).join('')
+        redirectBookId()
+    })
+}
+
+const getBooksByCategorie = async (idCategoria) => {
+    //Se utiliza para obtener los libros por Categoria y listarlos
+    const contenedorImagenes = document.querySelector('.contenedor-imagenes')
+    const subtituloCategoria = document.getElementById('subtitulo-categoria')
+    console.log(subtituloCategoria);
+    //Obtengo la Categoría para setearla en el subtitulo
+    const categorie = await getById("categories", idCategoria)
+    subtituloCategoria.innerHTML = "Categoría: " + categorie.Descripcion
+    
+    const books = await getByCategorie("books/categorie", idCategoria)
     const template = book => `
         <img class="img-thumbnail col-md-2 col-sm-3" src="${book.ImagenTapa}" alt="Portada Libro"
         id="${book.IdLibro}">
@@ -136,15 +176,45 @@ const setTemplatesBook = bookGet => {
 const redirectBookBtn = async (idLibro) => {
     //Se utiliza para cuando el usuario clickea el boton "Modificar", se lo redirecciona a modificar el libro
     const btnModificar = document.getElementById("btn-modificar")
-    const btnEliminar = document.getElementById("btn-eliminar")
+    // const btnEliminar = document.getElementById("btn-eliminar")
     
     btnModificar.addEventListener("click", async (e) => {
         //Redirecciono a updateBook enviando el IdLibro
         window.location.href = `updateBook?idLibro=${idLibro}`
     })
 
-    btnEliminar.addEventListener("click", async (e) => {
-        //Redirecciono a updateBook enviando el IdLibro
-        window.location.href = `deleteBook?idLibro=${idLibro}`
+    // btnEliminar.addEventListener("click", async (e) => {
+    //     //Redirecciono a updateBook enviando el IdLibro
+    //     window.location.href = `deleteBook?idLibro=${idLibro}`
+    // })
+}
+
+const deleteBook = (idLibro) => {
+    const btnEliminar = document.getElementById("btn-eliminar")
+    
+    btnEliminar.addEventListener('click', async () => {
+        const response = await deleteObject("books", idLibro)    
+        console.log(response.status)
+        let mensaje = ""
+
+        if (response != null && response.status >= 400) {
+            mensaje = await response.json()
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: mensaje.errors[0].msg
+              })
+        } else {
+            //Eliminación exitosa
+            mensaje = await response.text()
+            //Mensaje de SweetAlert2
+            Swal.fire({
+                position: 'center-center',
+                icon: 'success',
+                title: mensaje,
+                showConfirmButton: false,
+                timer: 1500
+              }).then(relocation => window.location.href = "/index")
+        }
     })
 }

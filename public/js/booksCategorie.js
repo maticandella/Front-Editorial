@@ -3,16 +3,12 @@ window.onload = async () => {
     if (isLoggedIn) {
         //Obtengo el IdLibro del parametro de la Url
         let params = new URLSearchParams(location.search);
-        const idLibro = params.get('idLibro');
-        
+        const idCategoria = params.get('idCategoria');
+
         await getCategories()
-        const bookGet = await getBookById(idLibro)
-        setTemplatesBook(bookGet)
-        //await getBookById(idLibro)
-        await redirectBookBtn(idLibro)
-        deleteBook(idLibro)
+        await getBooksByCategorie(idCategoria)
+        await redirectBookId()
     } else {
         window.location.href = "/login";
     }
 }
-

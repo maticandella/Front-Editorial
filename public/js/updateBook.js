@@ -7,7 +7,7 @@ const setCategories = async (idCategoria) => {
     //Completar Drow Down de la barra de navegación
     const templateDropDown = categorie => `
         <li>
-            <a class="dropdown-item" href="#">${categorie.Descripcion}</a>
+            <a class="dropdown-item" href='booksCategorie?idCategoria=${categorie.IdCategoria}'>${categorie.Descripcion}</a>
         </li>
     `
     dropdownCategorias.innerHTML = categories.map(categorie => templateDropDown(categorie)).join('')
