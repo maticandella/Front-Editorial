@@ -71,7 +71,7 @@ const getBookById = async (idLibro) => {
 
     //Obtengo el Autor
     const author = await getById("authors", book.IdAutor)
-
+    
     //Obtengo el Idioma
     const language = await getById("languages", book.IdIdioma)
 
@@ -80,36 +80,71 @@ const getBookById = async (idLibro) => {
     const [year, month, date] = dateComponents.split('-')
     const fechaPublicacion = `${date}/${month}/${year}`
 
+    const bookGet = new BookGet()
+    bookGet.titulo = book.Titulo
+    bookGet.isbn = book.ISBN
+    bookGet.fechaPublicacion = fechaPublicacion
+    bookGet.numeroPaginas = book.NumeroPaginas
+    bookGet.precio = book.Precio
+    bookGet.resenia = book.Resenia
+    bookGet.imagenTapa = book.ImagenTapa
+    bookGet.idCategoria = book.IdCategoria
+    bookGet.categoria = categorie.Descripcion
+    bookGet.idAutor = book.IdAutor
+    bookGet.autor = author.Nombre + ' ' + author.Apellido
+    bookGet.idIdioma = book.IdIdioma
+    bookGet.idioma = language.Idioma
+    
+    return bookGet
+}
+
+const setTemplatesBook = bookGet => {
     //Constantes a utilizar para setear propiedades en el HTML
     const infoCabecera = document.getElementById('info-cabecera')
     const infoDetalle = document.getElementById('info-detalle')
     const imgPortada = document.getElementById('img-portada')
 
     //Seteo las propiedades en el HTML
-    imgPortada.src = book.ImagenTapa
-    
+    imgPortada.src = bookGet.imagenTapa
+
     const templateCabecera = `
-        <li class="list-group-item"><h4 class="fs-4 text-danger">${categorie.Descripcion}</h4></li>
+        <li class="list-group-item"><h4 class="fs-4 text-danger">${bookGet.categoria}</h4></li>
         <li class="list-group-item">
             <div class="row">
             <div class="col">
-                <h1 class="fs-1">${book.Titulo}</h1>
-                <a class="btn btn-primary" href="updateBook">Modificar</a>
-                <a class="btn btn-danger" href="deleteBook">Eliminar</a>
+                <h1 class="fs-1">${bookGet.titulo}</h1>
+                <a class="btn btn-primary" id="btn-modificar" href="#">Modificar</a>
+                <a class="btn btn-danger" id="btn-eliminar" href="#">Eliminar</a>
             </div>
             </div>
         </li>
-        <li class="list-group-item"><p class="text-secondary">${book.Resenia}</p></li>
+        <li class="list-group-item"><p class="text-secondary">${bookGet.resenia}</p></li>
     `
     const templateDetalle = `
-        <li class="list-group-item"><span class="fw-bold text-muted">ISBN:</span> ${book.ISBN}</li>
-        <li class="list-group-item"><span class="fw-bold text-muted">Autor:</span> ${author.Nombre} ${author.Apellido}</li>
-        <li class="list-group-item"><span class="fw-bold text-muted">Idioma:</span> ${language.Idioma}</li>
-        <li class="list-group-item"><span class="fw-bold text-muted">Fecha de publicación:</span> ${fechaPublicacion}</li>
-        <li class="list-group-item"><span class="fw-bold text-muted">Número de Páginas:</span> ${book.NumeroPaginas}</li>
-        <li class="list-group-item"><span class="fw-bold text-muted">Precio:</span> ${book.Precio}</li>
+        <li class="list-group-item"><span class="fw-bold text-muted">ISBN:</span> ${bookGet.isbn}</li>
+        <li class="list-group-item"><span class="fw-bold text-muted">Autor:</span> ${bookGet.autor}</li>
+        <li class="list-group-item"><span class="fw-bold text-muted">Idioma:</span> ${bookGet.idioma}</li>
+        <li class="list-group-item"><span class="fw-bold text-muted">Fecha de publicación:</span> ${bookGet.fechaPublicacion}</li>
+        <li class="list-group-item"><span class="fw-bold text-muted">Número de Páginas:</span> ${bookGet.numeroPaginas}</li>
+        <li class="list-group-item"><span class="fw-bold text-muted">Precio:</span> ${bookGet.precio}</li>
     `
 
     infoCabecera.innerHTML = templateCabecera
     infoDetalle.innerHTML = templateDetalle
+}
+
+const redirectBookBtn = async (idLibro) => {
+    //Se utiliza para cuando el usuario clickea el boton "Modificar", se lo redirecciona a modificar el libro
+    const btnModificar = document.getElementById("btn-modificar")
+    const btnEliminar = document.getElementById("btn-eliminar")
+    
+    btnModificar.addEventListener("click", async (e) => {
+        //Redirecciono a updateBook enviando el IdLibro
+        window.location.href = `updateBook?idLibro=${idLibro}`
+    })
+
+    btnEliminar.addEventListener("click", async (e) => {
+        //Redirecciono a updateBook enviando el IdLibro
+        window.location.href = `deleteBook?idLibro=${idLibro}`
+    })
 }

@@ -6,7 +6,10 @@ window.onload = async () => {
         const idLibro = params.get('idLibro');
         
         await getCategories()
-        await getBookById(idLibro)
+        const bookGet = await getBookById(idLibro)
+        setTemplatesBook(bookGet)
+        //await getBookById(idLibro)
+        await redirectBookBtn(idLibro)
     } else {
         window.location.href = "/login";
     }

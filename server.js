@@ -40,6 +40,11 @@ app.get('/addbook', function(req, res) {
     res.render('pages/addBook');
 });
 
+//UpdateBook
+app.get('/updatebook', function(req, res) {
+    res.render('pages/updateBook');
+});
+
 //About
 app.get('/about', function(req, res) {
     res.render('pages/about');

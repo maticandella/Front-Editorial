@@ -35,3 +35,14 @@ const postObject = async (apiName, object) => {
     })
     return response
 }
+
+const putObject = async (apiName, id, object) => {
+    const response = await fetch('http://localhost:3000/' + apiName + '/' + id, {
+        headers: {
+                    "Content-Type": 'application/json', 
+                    "Authorization": sessionStorage.getItem("jwt")},
+        method: 'PUT',
+        body: JSON.stringify(object)
+    })
+    return response
+}

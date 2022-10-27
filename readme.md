@@ -4,7 +4,7 @@ Frontend que consume la API de [API-Editorial](https://github.com/maticandella/A
 
 ## Proposito 🚀
 
-En este proyecto iré incorporando todos los conocimientos adquiridos en torno al Frontend, sobre todo JavaScript Vanilla.
+En este proyecto iré incorporando todos los conocimientos adquiridos en torno al Frontend.
 
 ## Construido con 🛠️
 
@@ -12,6 +12,9 @@ En este proyecto iré incorporando todos los conocimientos adquiridos en torno a
 * JavaScript
 * Bootstrap
 * CSS
+* Node.js
+* Express
+* EJS
 
 ## Autor ✒️
 
@@ -20,8 +23,8 @@ En este proyecto iré incorporando todos los conocimientos adquiridos en torno a
 ## Pendientes en el Front :computer:
 
 * Paginación en index.html
-* Vistas parciales, sobre todo para Header & Footer
-* Update y Delete de Books
+* Validaciones en todos formularios
+* Delete de Books
 * Insert, Update y Delete de Authors
 * Insert, Update y Delete de Categories
 * Búsqueda de Book por Categorie
