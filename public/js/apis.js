@@ -1,14 +1,19 @@
+let port = 3000 //Puerto de API-Editorial
+let hostSplit = window.location.host.split(':')
+let host = window.location.protocol + "//" + hostSplit[0] + ":"
+
 const getAll = async (apiName) => {
-    const response = await fetch('http://localhost:3000/' + apiName, {
+    const response = await fetch(host + port + '/' + apiName, {
             headers: {
                 "Authorization": sessionStorage.getItem("jwt")
             }
     })
     return await response.json()
+    //window.location.host VER
 }
 
 const getById = async (apiName, id) => {
-    const response = await fetch('http://localhost:3000/' + apiName + '/' + id, {
+    const response = await fetch(host + port + '/' + apiName + '/' + id, {
             headers: {
                 "Authorization": sessionStorage.getItem("jwt")
             }
@@ -17,7 +22,7 @@ const getById = async (apiName, id) => {
 }
 
 const getByCategorie = async (apiName, idCategorie) => {
-    const response = await fetch('http://localhost:3000/' + apiName + '/' + idCategorie, {
+    const response = await fetch(host + port + '/' + apiName + '/' + idCategorie, {
             headers: {
                 "Authorization": sessionStorage.getItem("jwt")
             }
@@ -26,7 +31,7 @@ const getByCategorie = async (apiName, idCategorie) => {
 }
 
 const getUserByEmail = async (apiName, email) => {
-    const response = await fetch('http://localhost:3000/' + apiName + '/' + email, {
+    const response = await fetch(host + port + '/' + apiName + '/' + email, {
             headers: {
                 "Authorization": sessionStorage.getItem("jwt")
             }
@@ -35,7 +40,7 @@ const getUserByEmail = async (apiName, email) => {
 }
 
 const postObject = async (apiName, object) => {
-    const response = await fetch('http://localhost:3000/' + apiName, {
+    const response = await fetch(host + port + '/' + apiName, {
         headers: {
                     "Content-Type": 'application/json', 
                     "Authorization": sessionStorage.getItem("jwt")},
@@ -46,7 +51,7 @@ const postObject = async (apiName, object) => {
 }
 
 const putObject = async (apiName, id, object) => {
-    const response = await fetch('http://localhost:3000/' + apiName + '/' + id, {
+    const response = await fetch(host + port + '/' + apiName + '/' + id, {
         headers: {
                     "Content-Type": 'application/json', 
                     "Authorization": sessionStorage.getItem("jwt")},
@@ -57,7 +62,7 @@ const putObject = async (apiName, id, object) => {
 }
 
 const deleteObject = async (apiName, id) => {
-    const response = await fetch('http://localhost:3000/' + apiName + '/' + id, {
+    const response = await fetch(host + port + '/' + apiName + '/' + id, {
         headers: {
                     "Content-Type": 'application/json', 
                     "Authorization": sessionStorage.getItem("jwt")},

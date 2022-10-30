@@ -8,7 +8,6 @@ window.onload = async () => {
         await getCategories()
         const bookGet = await getBookById(idLibro)
         setTemplatesBook(bookGet)
-        //await getBookById(idLibro)
         await redirectBookBtn(idLibro)
         deleteBook(idLibro)
     } else {

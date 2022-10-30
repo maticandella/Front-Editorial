@@ -50,6 +50,16 @@ app.get('/bookscategorie', function(req, res) {
     res.render('pages/booksCategorie');
 });
 
+//Authors
+app.get('/authors', function(req, res) {
+    res.render('pages/authors');
+});
+
+//Author
+app.get('/author', function(req, res) {
+    res.render('pages/author');
+});
+
 //About
 app.get('/about', function(req, res) {
     res.render('pages/about');
